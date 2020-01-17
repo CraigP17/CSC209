@@ -6,10 +6,9 @@ int main() {
   int index;
   int scan = 0;
   int wrong = 0;
-  scanf("%s", phone);
+  scanf("%s %d", phone, &scan);
 
   while(scan != EOF) {
-    scan = scanf("%d", &index);
     if (index == -1) {
         printf("%s\n", phone);
     } else if ((0 <= index)&&(index <= 9)) {
@@ -18,6 +17,7 @@ int main() {
       wrong = 1;
       printf("ERROR\n");
     }
+    scan = scanf("%d", &index);
   }
 
   if (wrong) {
