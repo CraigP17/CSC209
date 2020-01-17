@@ -6,7 +6,7 @@ int main() {
   int index;
   int scan = 0;
   int wrong = 0;
-  scanf("%s %d", phone, &scan);
+  scanf("%s %d", phone, &index);
 
   while(scan != EOF) {
     if (index == -1) {
@@ -22,6 +22,7 @@ int main() {
 
   if (wrong) {
     return 1;
+  } else {
+    return 0;
   }
-  return 0;
 }
