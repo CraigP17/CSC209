@@ -15,7 +15,19 @@
  */
 
 /* Write your solution here */
-
+void fib(int **pt, int n) {
+    *pt = malloc(sizeof(int) * n);
+    int *heap_pt = *pt;
+    for (int i = 0; i < n ; i++) {
+      if (i == 0) {
+        heap_pt[0] = 0;
+      } else if (i == 1) {
+        heap_pt[1] = 1;
+      } else {
+        heap_pt[i] = heap_pt[i-1] + heap_pt[i-2];
+      }
+    }
+}
 
 int main(int argc, char **argv) {
     /* do not change this main function */
