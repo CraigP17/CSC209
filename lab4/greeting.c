@@ -40,7 +40,7 @@ int main(int argc, char **argv) {
     // Your code goes here
     strncpy(greeting, argv[1], 19);
     int len = strlen(argv[1]);
-    if (len < 20) {
+    if (len < 19) {
       greeting[len] = ' ';
       greeting[len+1] = '\0';
     } else {
