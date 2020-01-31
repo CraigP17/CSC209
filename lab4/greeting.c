@@ -25,7 +25,7 @@
     having the value "Good morning Emmanu" and "Top of the morning to you" and
     "Patrick" should result in greeting having the value "Top of the morning ".
 
-    Do not make changes to the code we have provided other than to add your 
+    Do not make changes to the code we have provided other than to add your
     code where indicated.
 */
 
@@ -38,10 +38,18 @@ int main(int argc, char **argv) {
     char *name = argv[2];
 
     // Your code goes here
+    strncpy(greeting, argv[1], 19);
+    int len = strlen(argv[1]);
+    if (len < 20) {
+      greeting[len] = ' ';
+      greeting[len+1] = '\0';
+    } else {
+      greeting[19] = '\0';
+    }
 
+    int left = sizeof(greeting) - strlen(greeting) - 1;
+    strncat(greeting, name, left);
 
     printf("%s\n", greeting);
     return 0;
 }
-
-

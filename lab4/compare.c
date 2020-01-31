@@ -9,8 +9,23 @@
     - "Different\n" if the arguments are different.
     - "Invalid\n" if the program is called with an incorrect number of
       arguments.
-	  NOTE: Cut and paste these strings into your printf statements to 
+	  NOTE: Cut and paste these strings into your printf statements to
 	  ensure that they will be exactly the strings above.
 
   Your main function should return 0, regardless of what is printed.
 */
+int main(int argc, char const *argv[]) {
+  if (argc != 3) {
+    printf("Invalid\n");
+    return 0;
+  }
+
+  int same;
+  same = strcmp(argv[1], argv[2]);
+  if (same == 0) {
+    printf("Same\n");
+  } else {
+    printf("Different\n");
+  }
+  return 0;
+}
