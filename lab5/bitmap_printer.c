@@ -43,5 +43,11 @@ int main(int argc, char **argv) {
     }
     free(pixels);
 
+    int error;
+    error = fclose(image);
+    if (error != 0) {
+      return 1;
+    }
+
     return 0;
 }
