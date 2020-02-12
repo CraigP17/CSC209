@@ -205,6 +205,7 @@ void deallocate_ftree (struct TreeNode *node) {
          free(curr);
          curr = root;
        }
+       free(node->fname);
        free(node);
      } else {
        free(node->fname);
