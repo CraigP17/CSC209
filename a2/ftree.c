@@ -54,7 +54,7 @@ struct TreeNode *maker(const char *fnamer, char* path) {
  */
 struct TreeNode *make_structs(const char *fnames, char* path) {
     struct stat input;
-    struct TreeNode *main = NULL;
+    struct TreeNode *mains = NULL;
     struct TreeNode *current = NULL;
     struct TreeNode *next = NULL;
 
@@ -66,13 +66,13 @@ struct TreeNode *make_structs(const char *fnames, char* path) {
 
     // Is a File
     if (S_ISREG(input.st_mode)) {
-      main = maker(fnames, curr_path);
-      return main;
+      mains = maker(fnames, curr_path);
+      return mains;
     } else if (S_ISLNK(input.st_mode)) {
-      main = maker(fnames, curr_path);
-      return main;
+      mains = maker(fnames, curr_path);
+      return mains;
     } else if (S_ISDIR(input.st_mode)) {
-      main = maker(fnames, curr_path);
+      mains = maker(fnames, curr_path);
       DIR *directory = opendir(curr_path);
       if (directory == NULL) {
         fprintf(stderr, "Error opening directory: %s\n", curr_path);
@@ -85,8 +85,8 @@ struct TreeNode *make_structs(const char *fnames, char* path) {
       }
 
       strcat(curr_path, "/");
-      main->contents = make_structs(dir_file->d_name, curr_path);
-      current = main->contents;
+      mains->contents = make_structs(dir_file->d_name, curr_path);
+      current = mains->contents;
       dir_file = readdir(directory);
       while ((dir_file != NULL)&&((dir_file->d_name)[0] == '.')) {
         dir_file = readdir(directory);
@@ -97,10 +97,13 @@ struct TreeNode *make_structs(const char *fnames, char* path) {
         current->next = next;
         current = next;
         dir_file = readdir(directory);
+        while ((dir_file != NULL)&&((dir_file->d_name)[0] == '.')) {
+          dir_file = readdir(directory);
+        }
       }
       closedir(directory);
     }
-    return main;
+    return mains;
 }
 
 /*
@@ -183,5 +186,30 @@ void print_ftree(struct TreeNode *root) {
 void deallocate_ftree (struct TreeNode *node) {
 
    // Your implementation here.
+   if (node->type == '-') {
+     free(node->fname);
+     free(node);
+   } else if (node->type == 'l'){
+     free(node->fname);
+     free(node);
+   } else {
+     if (node->contents != NULL) {
+       struct TreeNode *curr = node->contents;
+       struct TreeNode *root = node->contents;
+       while (curr != NULL) {
+         if (curr->type == 'd') {
+           deallocate_ftree(curr->contents);
+         }
+         free(curr->fname);
+         root = curr->next;
+         free(curr);
+         curr = root;
+       }
+       free(node);
+     } else {
+       free(node->fname);
+       free(node);
+     }
+   }
 
 }
