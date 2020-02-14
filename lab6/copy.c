@@ -12,7 +12,20 @@
  */
 
 char *copy(char *dest, const char *src, int capacity) {
-
+    int i = 0;
+    int found = 0;
+    while ((i < capacity) && (i < sizeof(dest))) {
+      if (found == 1) {
+        memset(&dest[i], '\0', sizeof(char));
+      } else {
+        memset(&dest[i], src[i], sizeof(char));
+        if (src[i] == '\0') {
+          found = 1;
+        }
+      }
+      i++;
+    }
+    dest[capacity-1] = '\0';
 
     return dest;
 }
