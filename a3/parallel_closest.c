@@ -172,7 +172,8 @@ double closest_parallel(struct Point *p, int n, int pdmax, int *pcount) {
             }
         }
 
-        // Find the closest points in strip.  Return the minimum of d and closest distance in strip[].
+        // Find the closest points in strip.
+        // Return the minimum of d and closest distance in middle[].
         double new_min = min(d, strip_closest(middle, j, d));
         free(middle);
 
