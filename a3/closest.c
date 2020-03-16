@@ -24,7 +24,29 @@ int main(int argc, char **argv) {
     int pcount = 0;
 
     // TODO: Parse the command line arguments
+    int ch, dflag, fflag;
+    dflag = 0;
+    fflag = 0;
 
+    while ((ch = getopt(argc, argv, "d:f:")) != -1) {
+        switch (ch) {
+            case 'd':
+                pdepth = strtol(optarg, NULL, 10);
+                dflag = 1;
+                break;
+            case 'f':
+                filename = optarg;
+                fflag = 1;
+                break;
+            case '?':
+                print_usage();
+            default:
+                print_usage();
+        }
+    }
+    if ((dflag != 1) || (fflag != 1)) {
+        print_usage();
+    }
 
     // Read the points
     n = total_points(filename);
