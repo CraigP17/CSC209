@@ -1,0 +1,813 @@
+Script started on 2020-03-23 19:43:08-0400
+]0;pintocra@wolf:/h/u11/c8/00/pintocra/Desktop/csc209/pintocra/lab10wolf:~/Desktop/csc209/pintocra/lab10$ gdb bufserver
+GNU gdb (Ubuntu 8.1-0ubuntu3.2) 8.1.0.20180409-git
+Copyright (C) 2018 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.  Type "show copying"
+and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+<http://www.gnu.org/software/gdb/documentation/>.
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from bufserver...done.
+(gdb) break main
+Breakpoint 1 at 0xce2: file bufserver.c, line 18.
+(gdb) run
+Starting program: /h/u11/c8/00/pintocra/Desktop/csc209/pintocra/lab10/bufserver 
+
+Breakpoint 1, main () at bufserver.c:18
+18      int main() {
+(gdb) next
+21          setbuf(stdout, NULL);
+(gdb) 
+23          struct sockaddr_in *self = init_server_addr(PORT);
+(gdb) 
+24          int listenfd = set_up_server_socket(self, 5);
+(gdb) 
+27              int fd = accept_connection(listenfd);
+(gdb) 
+Waiting for a new connection...
+New connection accepted from 127.0.0.1:46056
+28              if (fd < 0) {
+(gdb) 
+33              char buf[BUFSIZE] = {'\0'};
+(gdb) 
+34              int inbuf = 0;           // How many bytes currently in buffer?
+(gdb) 
+35              int room = sizeof(buf);  // How many bytes remaining in buffer?
+(gdb) 
+36              char *after = buf;       // Pointer to position after the data in buf
+(gdb) 
+39              while ((nbytes = read(fd, after, room)) > 0) {
+(gdb) 
+41                  inbuf += nbytes;
+(gdb) 
+52                  while ((where = find_network_newline(buf, inbuf)) > 0) {
+(gdb) 
+58                      buf[where - 2] = '\0';
+(gdb) 
+60                      printf("Next message: %s\n", buf);
+(gdb) 
+Next message: A stitch in time
+66                      inbuf -= where;
+(gdb) 
+70                      memmove(buf, &buf[where], inbuf * sizeof(char));
+(gdb) 
+52                  while ((where = find_network_newline(buf, inbuf)) > 0) {
+(gdb) 
+73                  room = BUFSIZE - inbuf;
+(gdb) 
+74                  after = &buf[inbuf];
+(gdb) 
+39              while ((nbytes = read(fd, after, room)) > 0) {
+(gdb) 
+41                  inbuf += nbytes;
+(gdb) 
+52                  while ((where = find_network_newline(buf, inbuf)) > 0) {
+(gdb) 
+58                      buf[where - 2] = '\0';
+(gdb) 
+60                      printf("Next message: %s\n", buf);
+(gdb) 
+Next message: A stitch in time
+66                      inbuf -= where;
+(gdb) 
+70                      memmove(buf, &buf[where], inbuf * sizeof(char));
+(gdb) 
+52                  while ((where = find_network_newline(buf, inbuf)) > 0) {
+(gdb) 
+73                  room = BUFSIZE - inbuf;
+(gdb) 
+74                  after = &buf[inbuf];
+(gdb) 
+39              while ((nbytes = read(fd, after, room)) > 0) {
+(gdb) 
+41                  inbuf += nbytes;
+(gdb) 
+52                  while ((where = find_network_newline(buf, inbuf)) > 0) {
+(gdb) 
+58                      buf[where - 2] = '\0';
+(gdb) 
+60                      printf("Next message: %s\n", buf);
+(gdb) 
+Next message: A stitch in time
+66                      inbuf -= where;
+(gdb) 
+70                      memmove(buf, &buf[where], inbuf * sizeof(char));
+(gdb) 
+52                  while ((where = find_network_newline(buf, inbuf)) > 0) {
+(gdb) 
+73                  room = BUFSIZE - inbuf;
+(gdb) 
+74                  after = &buf[inbuf];
+(gdb) 
+39              while ((nbytes = read(fd, after, room)) > 0) {
+(gdb) 
+41                  inbuf += nbytes;
+(gdb) 
+52                  while ((where = find_network_newline(buf, inbuf)) > 0) {
+(gdb) 
+58                      buf[where - 2] = '\0';
+(gdb) 
+60                      printf("Next message: %s\n", buf);
+(gdb) 
+Next message: A stitch in time
+66                      inbuf -= where;
+(gdb) 
+70                      memmove(buf, &buf[where], inbuf * sizeof(char));
+(gdb) 
+52                  while ((where = find_network_newline(buf, inbuf)) > 0) {
+(gdb) 
+73                  room = BUFSIZE - inbuf;
+(gdb) 
+74                  after = &buf[inbuf];
+(gdb) 
+39              while ((nbytes = read(fd, after, room)) > 0) {
+(gdb) 
+41                  inbuf += nbytes;
+(gdb) 
+52                  while ((where = find_network_newline(buf, inbuf)) > 0) {
+(gdb) 
+58                      buf[where - 2] = '\0';
+(gdb) 
+60                      printf("Next message: %s\n", buf);
+(gdb) 
+Next message: A stitch in time
+66                      inbuf -= where;
+(gdb) 
+70                      memmove(buf, &buf[where], inbuf * sizeof(char));
+(gdb) 
+52                  while ((where = find_network_newline(buf, inbuf)) > 0) {
+(gdb) 
+73                  room = BUFSIZE - inbuf;
+(gdb) 
+74                  after = &buf[inbuf];
+(gdb) 
+39              while ((nbytes = read(fd, after, room)) > 0) {
+(gdb) 
+
+
+77              close(fd);
+(gdb) 
+27              int fd = accept_connection(listenfd);
+(gdb) 
+Waiting for a new connection...
+
+
+
+New connection accepted from 127.0.0.1:46154
+28              if (fd < 0) {
+(gdb) 
+33              char buf[BUFSIZE] = {'\0'};
+(gdb) 
+34              int inbuf = 0;           // How many bytes currently in buffer?
+(gdb) 
+35              int room = sizeof(buf);  // How many bytes remaining in buffer?
+(gdb) 
+36              char *after = buf;       // Pointer to position after the data in buf
+(gdb) 
+39              while ((nbytes = read(fd, after, room)) > 0) {
+(gdb) 
+
+
+
+
+
+
+41                  inbuf += nbytes;
+(gdb) 
+52                  while ((where = find_network_newline(buf, inbuf)) > 0) {
+(gdb) 
+73                  room = BUFSIZE - inbuf;
+(gdb) 
+74                  after = &buf[inbuf];
+(gdb) 
+39              while ((nbytes = read(fd, after, room)) > 0) {
+(gdb) 
+
+
+41                  inbuf += nbytes;
+(gdb) 
+52                  while ((where = find_network_newline(buf, inbuf)) > 0) {
+(gdb) 
+73                  room = BUFSIZE - inbuf;
+(gdb) 
+74                  after = &buf[inbuf];
+(gdb) 
+39              while ((nbytes = read(fd, after, room)) > 0) {
+(gdb) 
+41                  inbuf += nbytes;
+(gdb) 
+52                  while ((where = find_network_newline(buf, inbuf)) > 0) {
+(gdb) 
+58                      buf[where - 2] = '\0';
+(gdb) 
+60                      printf("Next message: %s\n", buf);
+(gdb) 
+Next message: A stitch in time
+66                      inbuf -= where;
+(gdb) 
+70                      memmove(buf, &buf[where], inbuf * sizeof(char));
+(gdb) 
+52                  while ((where = find_network_newline(buf, inbuf)) > 0) {
+(gdb) 
+73                  room = BUFSIZE - inbuf;
+(gdb) 
+74                  after = &buf[inbuf];
+(gdb) 
+39              while ((nbytes = read(fd, after, room)) > 0) {
+(gdb) 
+
+
+
+
+41                  inbuf += nbytes;
+(gdb) 
+52                  while ((where = find_network_newline(buf, inbuf)) > 0) {
+(gdb) 
+73                  room = BUFSIZE - inbuf;
+(gdb) 
+74                  after = &buf[inbuf];
+(gdb) 
+39              while ((nbytes = read(fd, after, room)) > 0) {
+(gdb) 
+
+
+41                  inbuf += nbytes;
+(gdb) 
+52                  while ((where = find_network_newline(buf, inbuf)) > 0) {
+(gdb) 
+73                  room = BUFSIZE - inbuf;
+(gdb) 
+74                  after = &buf[inbuf];
+(gdb) 
+39              while ((nbytes = read(fd, after, room)) > 0) {
+(gdb) 
+
+
+41                  inbuf += nbytes;
+(gdb) 
+52                  while ((where = find_network_newline(buf, inbuf)) > 0) {
+(gdb) 
+58                      buf[where - 2] = '\0';
+(gdb) 
+60                      printf("Next message: %s\n", buf);
+(gdb) 
+Next message: A stitch in time
+66                      inbuf -= where;
+(gdb) 
+70                      memmove(buf, &buf[where], inbuf * sizeof(char));
+(gdb) 
+52                  while ((where = find_network_newline(buf, inbuf)) > 0) {
+(gdb) 
+73                  room = BUFSIZE - inbuf;
+(gdb) 
+74                  after = &buf[inbuf];
+(gdb) 
+39              while ((nbytes = read(fd, after, room)) > 0) {
+(gdb) 
+
+41                  inbuf += nbytes;
+(gdb) 
+52                  while ((where = find_network_newline(buf, inbuf)) > 0) {
+(gdb) buf
+Undefined command: "buf".  Try "help".
+(gdb) p buf
+$1 = "A stitch in time\000\nA stit\000\000\000\000\000"
+(gdb) p inbuf
+$2 = 7
+(gdb) p where
+$3 = -1
+(gdb) p buf
+$4 = "A stitch in time\000\nA stit\000\000\000\000\000"
+(gdb) p buf
+$5 = "A stitch in time\000\nA stit\000\000\000\000\000"
+(gdb) 
+$6 = "A stitch in time\000\nA stit\000\000\000\000\000"
+(gdb) next
+73                  room = BUFSIZE - inbuf;
+(gdb) 
+74                  after = &buf[inbuf];
+(gdb) 
+39              while ((nbytes = read(fd, after, room)) > 0) {
+(gdb) 
+41                  inbuf += nbytes;
+(gdb) 
+52                  while ((where = find_network_newline(buf, inbuf)) > 0) {
+(gdb) 
+73                  room = BUFSIZE - inbuf;
+(gdb) p buf
+$7 = "A stitch in time\000\nA stit\000\000\000\000\000"
+(gdb) nexxt
+Undefined command: "nexxt".  Try "help".
+(gdb) next
+74                  after = &buf[inbuf];
+(gdb) 
+39              while ((nbytes = read(fd, after, room)) > 0) {
+(gdb) p buf
+$8 = "A stitch in time\000\nA stit\000\000\000\000\000"
+(gdb) next
+41                  inbuf += nbytes;
+(gdb) 
+52                  while ((where = find_network_newline(buf, inbuf)) > 0) {
+(gdb) 
+58                      buf[where - 2] = '\0';
+(gdb) 
+60                      printf("Next message: %s\n", buf);
+(gdb) 
+Next message: A stitch in time
+66                      inbuf -= where;
+(gdb) 
+70                      memmove(buf, &buf[where], inbuf * sizeof(char));
+(gdb) 
+52                  while ((where = find_network_newline(buf, inbuf)) > 0) {
+(gdb) p buf
+$9 = "A stitch in time\000\nA stit\000\000\000\000\000"
+(gdb) p inbuf
+$10 = 3
+(gdb) buf
+Undefined command: "buf".  Try "help".
+(gdb) bufp inbuf
+$11 = 3
+(gdb) next
+73                  room = BUFSIZE - inbuf;
+(gdb) 
+74                  after = &buf[inbuf];
+(gdb) 
+39              while ((nbytes = read(fd, after, room)) > 0) {
+(gdb) 
+41                  inbuf += nbytes;
+(gdb) 
+52                  while ((where = find_network_newline(buf, inbuf)) > 0) {
+(gdb) 
+73                  room = BUFSIZE - inbuf;
+(gdb) 
+74                  after = &buf[inbuf];
+(gdb) 
+39              while ((nbytes = read(fd, after, room)) > 0) {
+(gdb) 
+
+
+
+p buf
+^?41                inbuf += nbytes;
+(gdb) 
+52                  while ((where = find_network_newline(buf, inbuf)) > 0) {
+(gdb) 
+58                      buf[where - 2] = '\0';
+(gdb) 
+60                      printf("Next message: %s\n", buf);
+(gdb) p buf
+$12 = "A stitch in time\000\nA stit\000\000\000\000\000"
+(gdb) nexg[Kt
+Next message: A stitch in time
+66                      inbuf -= where;
+(gdb) 
+70                      memmove(buf, &buf[where], inbuf * sizeof(char));
+(gdb) 
+52                  while ((where = find_network_newline(buf, inbuf)) > 0) {
+(gdb) 
+73                  room = BUFSIZE - inbuf;
+(gdb) 
+74                  after = &buf[inbuf];
+(gdb) 
+39              while ((nbytes = read(fd, after, room)) > 0) {
+(gdb) 
+
+
+41                  inbuf += nbytes;
+(gdb) 
+52                  while ((where = find_network_newline(buf, inbuf)) > 0) {
+(gdb) 
+73                  room = BUFSIZE - inbuf;
+(gdb) p[Knext
+74                  after = &buf[inbuf];
+(gdb) 
+39              while ((nbytes = read(fd, after, room)) > 0) {
+(gdb) 
+41                  inbuf += nbytes;
+(gdb) 
+52                  while ((where = find_network_newline(buf, inbuf)) > 0) {
+(gdb) 
+58                      buf[where - 2] = '\0';
+(gdb) 
+60                      printf("Next message: %s\n", buf);
+(gdb) p buf
+$13 = "A stitch in time\000\nA stit\000\000\000\000\000"
+(gdb) print buf
+$14 = "A stitch in time\000\nA stit\000\000\000\000\000"
+(gdb) p [Krint inbuf
+$15 = 18
+(gdb) print where
+$16 = 18
+(gdb) print room
+$17 = 25
+(gdb) print after
+$18 = 0x7fffffffe915 "tch in time"
+(gdb) next
+Next message: A stitch in time
+66                      inbuf -= where;
+(gdb) 
+70                      memmove(buf, &buf[where], inbuf * sizeof(char));
+(gdb) 
+52                  while ((where = find_network_newline(buf, inbuf)) > 0) {
+(gdb) print buf
+$19 = "A stitch in time\000\nA stit\000\000\000\000\000"
+(gdb) print inbuf
+$20 = 0
+(gdb) print[K[K[K[K[Kprint where
+$21 = 18
+(gdb) print room
+$22 = 25
+(gdb) next
+73                  room = BUFSIZE - inbuf;
+(gdb) 
+74                  after = &buf[inbuf];
+(gdb) 
+39              while ((nbytes = read(fd, after, room)) > 0) {
+(gdb) print r[Kwhere[K[K[K[K[Kroom
+$23 = 30
+(gdb) print after
+$24 = 0x7fffffffe910 "A stitch in time"
+(gdb) print [K[K[K[K[K[Knext
+77              close(fd);
+(gdb) 
+27              int fd = accept_connection(listenfd);
+(gdb) 
+Waiting for a new connection...
+New connection accepted from 127.0.0.1:46202
+28              if (fd < 0) {
+(gdb) 
+33              char buf[BUFSIZE] = {'\0'};
+(gdb) 
+34              int inbuf = 0;           // How many bytes currently in buffer?
+(gdb) 
+35              int room = sizeof(buf);  // How many bytes remaining in buffer?
+(gdb) 
+36              char *after = buf;       // Pointer to position after the data in buf
+(gdb) 
+39              while ((nbytes = read(fd, after, room)) > 0) {
+(gdb) 
+41                  inbuf += nbytes;
+(gdb) 
+52                  while ((where = find_network_newline(buf, inbuf)) > 0) {
+(gdb) 
+58                      buf[where - 2] = '\0';
+(gdb) 
+60                      printf("Next message: %s\n", buf);
+(gdb) 
+Next message: A stitch in time
+66                      inbuf -= where;
+(gdb) 
+70                      memmove(buf, &buf[where], inbuf * sizeof(char));
+(gdb) 
+52                  while ((where = find_network_newline(buf, inbuf)) > 0) {
+(gdb) print buf
+$25 = "A stitch in time\000\nA stitch in "
+(gdb) print inbuf
+$26 = 12
+(gdb) next
+73                  room = BUFSIZE - inbuf;
+(gdb) 
+74                  after = &buf[inbuf];
+(gdb) 
+39              while ((nbytes = read(fd, after, room)) > 0) {
+(gdb) 
+41                  inbuf += nbytes;
+(gdb) 
+52                  while ((where = find_network_newline(buf, inbuf)) > 0) {
+(gdb) 
+58                      buf[where - 2] = '\0';
+(gdb) 
+60                      printf("Next message: %s\n", buf);
+(gdb) 
+Next message: A stitch in time
+66                      inbuf -= where;
+(gdb) 
+70                      memmove(buf, &buf[where], inbuf * sizeof(char));
+(gdb) peint[K[K[K[Keint [K[K[K[K[Krint inbuf
+$27 = 12
+(gdb) print buf
+$28 = "A stitch in time\000\nA stitch in "
+(gdb) next
+52                  while ((where = find_network_newline(buf, inbuf)) > 0) {
+(gdb) print buf
+$29 = "A stitch in time\000\nA stitch in "
+(gdb) print inbuf
+$30 = 12
+(gdb) print move
+No symbol "move" in current context.
+(gdb) print room
+$31 = 18
+(gdb) print after
+$32 = 0x7fffffffe91c "time"
+(gdb) next
+73                  room = BUFSIZE - inbuf;
+(gdb) 
+74                  after = &buf[inbuf];
+(gdb) 
+39              while ((nbytes = read(fd, after, room)) > 0) {
+(gdb) 
+41                  inbuf += nbytes;
+(gdb) 
+52                  while ((where = find_network_newline(buf, inbuf)) > 0) {
+(gdb) 
+58                      buf[where - 2] = '\0';
+(gdb) 
+60                      printf("Next message: %s\n", buf);
+(gdb) 
+Next message: A stitch in time
+66                      inbuf -= where;
+(gdb) 
+70                      memmove(buf, &buf[where], inbuf * sizeof(char));
+(gdb) 
+52                  while ((where = find_network_newline(buf, inbuf)) > 0) {
+(gdb) 
+73                  room = BUFSIZE - inbuf;
+(gdb) 
+74                  after = &buf[inbuf];
+(gdb) 
+39              while ((nbytes = read(fd, after, room)) > 0) {
+(gdb) 
+41                  inbuf += nbytes;
+(gdb) 
+52                  while ((where = find_network_newline(buf, inbuf)) > 0) {
+(gdb) 
+58                      buf[where - 2] = '\0';
+(gdb) 
+60                      printf("Next message: %s\n", buf);
+(gdb) 
+Next message: A stitch in time
+66                      inbuf -= where;
+(gdb) 
+70                      memmove(buf, &buf[where], inbuf * sizeof(char));
+(gdb) print move[K[K[K[Ko[Kroom
+$33 = 18
+(gdb) print after
+$34 = 0x7fffffffe91c "time"
+(gdb) next
+52                  while ((where = find_network_newline(buf, inbuf)) > 0) {
+(gdb) 
+73                  room = BUFSIZE - inbuf;
+(gdb) 
+74                  after = &buf[inbuf];
+(gdb) 
+39              while ((nbytes = read(fd, after, room)) > 0) {
+(gdb) print room
+$35 = 18
+(gdb) print after
+$36 = 0x7fffffffe91c "time"
+(gdb) next
+41                  inbuf += nbytes;
+(gdb) 
+52                  while ((where = find_network_newline(buf, inbuf)) > 0) {
+(gdb) 
+58                      buf[where - 2] = '\0';
+(gdb) 
+60                      printf("Next message: %s\n", buf);
+(gdb) 
+Next message: A stitch in time
+66                      inbuf -= where;
+(gdb) 
+70                      memmove(buf, &buf[where], inbuf * sizeof(char));
+(gdb) 
+52                  while ((where = find_network_newline(buf, inbuf)) > 0) {
+(gdb) 
+73                  room = BUFSIZE - inbuf;
+(gdb) 
+74                  after = &buf[inbuf];
+(gdb) 
+39              while ((nbytes = read(fd, after, room)) > 0) {
+(gdb) 
+77              close(fd);
+(gdb) 
+27              int fd = accept_connection(listenfd);
+(gdb) print after
+$37 = 0x7fffffffe910 "A stitch in time"
+(gdb) prit[Knt room
+$38 = 30
+(gdb) print[K[K[K[K[Knext
+Waiting for a new connection...
+
+
+
+print buf
+
+New connection accepted from 127.0.0.1:46218
+28              if (fd < 0) {
+(gdb) 
+33              char buf[BUFSIZE] = {'\0'};
+(gdb) 
+34              int inbuf = 0;           // How many bytes currently in buffer?
+(gdb) 
+35              int room = sizeof(buf);  // How many bytes remaining in buffer?
+(gdb) print buf
+$39 = '\000' <repeats 29 times>
+(gdb) 
+$40 = '\000' <repeats 29 times>
+(gdb) 
+$41 = '\000' <repeats 29 times>
+(gdb) print buf
+$42 = '\000' <repeats 29 times>
+(gdb) print inbuf
+$43 = 0
+(gdb) 
+$44 = 0
+(gdb) next
+36              char *after = buf;       // Pointer to position after the data in buf
+(gdb) 
+39              while ((nbytes = read(fd, after, room)) > 0) {
+(gdb) 
+41                  inbuf += nbytes;
+(gdb) 
+52                  while ((where = find_network_newline(buf, inbuf)) > 0) {
+(gdb) 
+58                      buf[where - 2] = '\0';
+(gdb) 
+60                      printf("Next message: %s\n", buf);
+(gdb) 
+Next message: A stitch in time
+66                      inbuf -= where;
+(gdb) pront[K[K[Kint buf
+$45 = "A stitch in time\000\nA stitch in "
+(gdb) print inbuf
+$46 = 30
+(gdb) print [K[K[K[K[K[Knext
+70                      memmove(buf, &buf[where], inbuf * sizeof(char));
+(gdb) print buf
+$47 = "A stitch in time\000\nA stitch in "
+(gdb) next
+52                  while ((where = find_network_newline(buf, inbuf)) > 0) {
+(gdb) print buf
+$48 = "A stitch in time\000\nA stitch in "
+(gdb) print inbuf
+$49 = 12
+(gdb) nx[Kext
+73                  room = BUFSIZE - inbuf;
+(gdb) 
+74                  after = &buf[inbuf];
+(gdb) 
+39              while ((nbytes = read(fd, after, room)) > 0) {
+(gdb) 
+41                  inbuf += nbytes;
+(gdb) 
+52                  while ((where = find_network_newline(buf, inbuf)) > 0) {
+(gdb) 
+58                      buf[where - 2] = '\0';
+(gdb) 
+60                      printf("Next message: %s\n", buf);
+(gdb) 
+Next message: A stitch in time
+66                      inbuf -= where;
+(gdb) print inbuf
+$50 = 30
+(gdb) printbuf
+Undefined command: "printbuf".  Try "help".
+(gdb) print buf
+$51 = "A stitch in time\000\nA stitch in "
+(gdb) next
+70                      memmove(buf, &buf[where], inbuf * sizeof(char));
+(gdb) 
+52                  while ((where = find_network_newline(buf, inbuf)) > 0) {
+(gdb) print buf
+$52 = "A stitch in time\000\nA stitch in "
+(gdb) print inbuf
+$53 = 12
+(gdb) next
+73                  room = BUFSIZE - inbuf;
+(gdb) 
+74                  after = &buf[inbuf];
+(gdb) 
+39              while ((nbytes = read(fd, after, room)) > 0) {
+(gdb) 
+41                  inbuf += nbytes;
+(gdb) 
+52                  while ((where = find_network_newline(buf, inbuf)) > 0) {
+(gdb) 
+58                      buf[where - 2] = '\0';
+(gdb) 
+60                      printf("Next message: %s\n", buf);
+(gdb) 
+Next message: A stitch in time
+66                      inbuf -= where;
+(gdb) 
+70                      memmove(buf, &buf[where], inbuf * sizeof(char));
+(gdb) 
+52                  while ((where = find_network_newline(buf, inbuf)) > 0) {
+(gdb) 
+73                  room = BUFSIZE - inbuf;
+(gdb) 
+74                  after = &buf[inbuf];
+(gdb) 
+39              while ((nbytes = read(fd, after, room)) > 0) {
+(gdb) 
+41                  inbuf += nbytes;
+(gdb) 
+52                  while ((where = find_network_newline(buf, inbuf)) > 0) {
+(gdb) 
+58                      buf[where - 2] = '\0';
+(gdb) 
+60                      printf("Next message: %s\n", buf);
+(gdb) 
+Next message: A stitch in time
+66                      inbuf -= where;
+(gdb) 
+70                      memmove(buf, &buf[where], inbuf * sizeof(char));
+(gdb) 
+52                  while ((where = find_network_newline(buf, inbuf)) > 0) {
+(gdb) 
+73                  room = BUFSIZE - inbuf;
+(gdb) 
+74                  after = &buf[inbuf];
+(gdb) 
+39              while ((nbytes = read(fd, after, room)) > 0) {
+(gdb) 
+41                  inbuf += nbytes;
+(gdb) 
+52                  while ((where = find_network_newline(buf, inbuf)) > 0) {
+(gdb) 
+58                      buf[where - 2] = '\0';
+(gdb) 
+60                      printf("Next message: %s\n", buf);
+(gdb) 
+Next message: A stitch in time
+66                      inbuf -= where;
+(gdb) 
+70                      memmove(buf, &buf[where], inbuf * sizeof(char));
+(gdb) 
+52                  while ((where = find_network_newline(buf, inbuf)) > 0) {
+(gdb) 
+73                  room = BUFSIZE - inbuf;
+(gdb) 
+74                  after = &buf[inbuf];
+(gdb) 
+39              while ((nbytes = read(fd, after, room)) > 0) {
+(gdb) 
+77              close(fd);
+(gdb) 
+27              int fd = accept_connection(listenfd);
+(gdb) 
+Waiting for a new connection...
+exit^?^?^?
+quit
+New connection accepted from 127.0.0.1:46234
+28              if (fd < 0) {
+(gdb) exit[K[K[K
+Ambiguous command "e": echo, edit, en, enable, end, eval, exec-file, explore, expression.
+(gdb) quit
+A debugging session is active.
+
+        Inferior 1 [process 59601] will be killed.
+
+Quit anyway? (y or n) y
+]0;pintocra@wolf:/h/u11/c8/00/pintocra/Desktop/csc209/pintocra/lab10wolf:~/Desktop/csc209/pintocra/lab10$ gdb bufserver
+GNU gdb (Ubuntu 8.1-0ubuntu3.2) 8.1.0.20180409-git
+Copyright (C) 2018 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.  Type "show copying"
+and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+<http://www.gnu.org/software/gdb/documentation/>.
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from bufserver...done.
+(gdb) break main
+Breakpoint 1 at 0xce2: file bufserver.c, line 18.
+(gdb) run
+Starting program: /h/u11/c8/00/pintocra/Desktop/csc209/pintocra/lab10/bufserver 
+
+Breakpoint 1, main () at bufserver.c:18
+18      int main() {
+(gdb) 
+(gdb) next
+21          setbuf(stdout, NULL);
+(gdb) 
+23          struct sockaddr_in *self = init_server_addr(PORT);
+(gdb) 
+24          int listenfd = set_up_server_socket(self, 5);
+(gdb) next
+27              int fd = accept_connection(listenfd);
+(gdb) 
+Waiting for a new connection...
+New connection accepted from 127.0.0.1:46238
+28              if (fd < 0) {
+(gdb) quit
+A debugging session is active.
+
+        Inferior 1 [process 61286] will be killed.
+
+Quit anyway? (y or n) y
+]0;pintocra@wolf:/h/u11/c8/00/pintocra/Desktop/csc209/pintocra/lab10wolf:~/Desktop/csc209/pintocra/lab10$ exit
+exit
+
+Script done on 2020-03-23 20:09:17-0400

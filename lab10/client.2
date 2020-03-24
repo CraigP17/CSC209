@@ -1,0 +1,888 @@
+Script started on 2020-03-23 19:43:03-0400
+]0;pintocra@wolf:/h/u11/c8/00/pintocra/Desktop/csc209/pintocra/lab10wolf:~/Desktop/csc209/pintocra/lab10$ gb [K[Kdb randclient
+GNU gdb (Ubuntu 8.1-0ubuntu3.2) 8.1.0.20180409-git
+Copyright (C) 2018 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.  Type "show copying"
+and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+<http://www.gnu.org/software/gdb/documentation/>.
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from randclient...done.
+(gdb) break main
+Breakpoint 1 at 0xc69: file randclient.c, line 24.
+(gdb) 1[Krun 127.0.0.1
+Starting program: /h/u11/c8/00/pintocra/Desktop/csc209/pintocra/lab10/randclient 127.0.0.1
+
+Breakpoint 1, main (argc=2, argv=0x7fffffffea28) at randclient.c:24
+24          if (argc != 2) {
+(gdb) next
+29          int soc = connect_to_server(PORT, argv[1]);
+(gdb) nex[K[K[K
+31          write_random_pieces(soc, MESSAGE, TIMES);
+(gdb) 
+33          close(soc);
+(gdb) 
+34          return 0;
+(gdb) 
+35      }
+(gdb) 
+__libc_start_main (main=0x555555554c5a <main>, argc=2, argv=0x7fffffffea28, init=<optimized out>, 
+    fini=<optimized out>, rtld_fini=<optimized out>, stack_end=0x7fffffffea18)
+    at ../csu/libc-start.c:344
+344     ../csu/libc-start.c: No such file or directory.
+(gdb) nextrun 127.0.0.1
+The program being debugged has been started already.
+Start it from the beginning? (y or n) y
+Starting program: /h/u11/c8/00/pintocra/Desktop/csc209/pintocra/lab10/randclient 127.0.0.1
+
+Breakpoint 1, main (argc=2, argv=0x7fffffffea28) at randclient.c:24
+24          if (argc != 2) {
+(gdb) 
+(gdb) 
+(gdb) run 127.0.0.1
+The program being debugged has been started already.
+Start it from the beginning? (y or n) y
+Starting program: /h/u11/c8/00/pintocra/Desktop/csc209/pintocra/lab10/randclient 127.0.0.1
+
+Breakpoint 1, main (argc=2, argv=0x7fffffffea28) at randclient.c:24
+24          if (argc != 2) {
+(gdb) 
+(gdb) quit
+A debugging session is active.
+
+        Inferior 1 [process 60254] will be killed.
+
+Quit anyway? (y or n) y
+]0;pintocra@wolf:/h/u11/c8/00/pintocra/Desktop/csc209/pintocra/lab10wolf:~/Desktop/csc209/pintocra/lab10$ gdb randclientexit[Kgdb randclient
+GNU gdb (Ubuntu 8.1-0ubuntu3.2) 8.1.0.20180409-git
+Copyright (C) 2018 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.  Type "show copying"
+and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+<http://www.gnu.org/software/gdb/documentation/>.
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from randclient...done.
+(gdb) break main
+Breakpoint 1 at 0xc69: file randclient.c, line 24.
+(gdb) break write_random_pieces
+Breakpoint 2 at 0xced: file randclient.c, line 42.
+(gdb) run 127.0.0.1
+Starting program: /h/u11/c8/00/pintocra/Desktop/csc209/pintocra/lab10/randclient 127.0.0.1
+
+Breakpoint 1, main (argc=2, argv=0x7fffffffea28) at randclient.c:24
+24          if (argc != 2) {
+(gdb) 
+(gdb) next
+29          int soc = connect_to_server(PORT, argv[1]);
+(gdb) 
+31          write_random_pieces(soc, MESSAGE, TIMES);
+(gdb) 
+
+Breakpoint 2, write_random_pieces (soc=3, message=0x5555555551e0 "A stitch in time\r\n", times=5)
+    at randclient.c:42
+42      void write_random_pieces(int soc, const char *message, int times) {
+(gdb) 
+44          int message_len = strlen(message);
+(gdb) 
+45          int total_bytes = times * message_len;
+(gdb) 
+46          int current_byte = 0;
+(gdb) 
+48          while (current_byte < total_bytes) {
+(gdb) 
+49              int piece_size = rand() % (MAXCHARS - MINCHARS + 1) + MINCHARS;
+(gdb) 
+50              int bytes_left = total_bytes - current_byte;
+(gdb) 
+51              if (piece_size > bytes_left) {
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+58              write(soc, piece, piece_size);
+(gdb) 
+59              current_byte += piece_size;
+(gdb) 
+48          while (current_byte < total_bytes) {
+(gdb) 
+49              int piece_size = rand() % (MAXCHARS - MINCHARS + 1) + MINCHARS;
+(gdb) 
+50              int bytes_left = total_bytes - current_byte;
+(gdb) 
+51              if (piece_size > bytes_left) {
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+58              write(soc, piece, piece_size);
+(gdb) 
+59              current_byte += piece_size;
+(gdb) 
+48          while (current_byte < total_bytes) {
+(gdb) 
+49              int piece_size = rand() % (MAXCHARS - MINCHARS + 1) + MINCHARS;
+(gdb) 
+50              int bytes_left = total_bytes - current_byte;
+(gdb) 
+51              if (piece_size > bytes_left) {
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+58              write(soc, piece, piece_size);
+(gdb) 
+59              current_byte += piece_size;
+(gdb) 
+48          while (current_byte < total_bytes) {
+(gdb) 
+49              int piece_size = rand() % (MAXCHARS - MINCHARS + 1) + MINCHARS;
+(gdb) 
+50              int bytes_left = total_bytes - current_byte;
+(gdb) 
+51              if (piece_size > bytes_left) {
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+58              write(soc, piece, piece_size);
+(gdb) 
+59              current_byte += piece_size;
+(gdb) 
+48          while (current_byte < total_bytes) {
+(gdb) 
+49              int piece_size = rand() % (MAXCHARS - MINCHARS + 1) + MINCHARS;
+(gdb) 
+50              int bytes_left = total_bytes - current_byte;
+(gdb) 
+51              if (piece_size > bytes_left) {
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+58              write(soc, piece, piece_size);
+(gdb) 
+59              current_byte += piece_size;
+(gdb) 
+48          while (current_byte < total_bytes) {
+(gdb) 
+49              int piece_size = rand() % (MAXCHARS - MINCHARS + 1) + MINCHARS;
+(gdb) 
+50              int bytes_left = total_bytes - current_byte;
+(gdb) 
+51              if (piece_size > bytes_left) {
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+58              write(soc, piece, piece_size);
+(gdb) 
+59              current_byte += piece_size;
+(gdb) 
+48          while (current_byte < total_bytes) {
+(gdb) 
+49              int piece_size = rand() % (MAXCHARS - MINCHARS + 1) + MINCHARS;
+(gdb) 
+50              int bytes_left = total_bytes - current_byte;
+(gdb) 
+51              if (piece_size > bytes_left) {
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+58              write(soc, piece, piece_size);
+(gdb) 
+59              current_byte += piece_size;
+(gdb) 
+48          while (current_byte < total_bytes) {
+(gdb) 
+49              int piece_size = rand() % (MAXCHARS - MINCHARS + 1) + MINCHARS;
+(gdb) 
+50              int bytes_left = total_bytes - current_byte;
+(gdb) 
+51              if (piece_size > bytes_left) {
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+58              write(soc, piece, piece_size);
+(gdb) 
+59              current_byte += piece_size;
+(gdb) 
+48          while (current_byte < total_bytes) {
+(gdb) 
+49              int piece_size = rand() % (MAXCHARS - MINCHARS + 1) + MINCHARS;
+(gdb) 
+50              int bytes_left = total_bytes - current_byte;
+(gdb) 
+51              if (piece_size > bytes_left) {
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+58              write(soc, piece, piece_size);
+(gdb) 
+59              current_byte += piece_size;
+(gdb) 
+48          while (current_byte < total_bytes) {
+(gdb) 
+49              int piece_size = rand() % (MAXCHARS - MINCHARS + 1) + MINCHARS;
+(gdb) 
+50              int bytes_left = total_bytes - current_byte;
+(gdb) 
+51              if (piece_size > bytes_left) {
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+58              write(soc, piece, piece_size);
+(gdb) 
+59              current_byte += piece_size;
+(gdb) 
+48          while (current_byte < total_bytes) {
+(gdb) 
+49              int piece_size = rand() % (MAXCHARS - MINCHARS + 1) + MINCHARS;
+(gdb) 
+50              int bytes_left = total_bytes - current_byte;
+(gdb) 
+51              if (piece_size > bytes_left) {
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+58              write(soc, piece, piece_size);
+(gdb) 
+59              current_byte += piece_size;
+(gdb) 
+48          while (current_byte < total_bytes) {
+(gdb) 
+49              int piece_size = rand() % (MAXCHARS - MINCHARS + 1) + MINCHARS;
+(gdb) 
+50              int bytes_left = total_bytes - current_byte;
+(gdb) 
+51              if (piece_size > bytes_left) {
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+58              write(soc, piece, piece_size);
+(gdb) 
+59              current_byte += piece_size;
+(gdb) 
+48          while (current_byte < total_bytes) {
+(gdb) 
+49              int piece_size = rand() % (MAXCHARS - MINCHARS + 1) + MINCHARS;
+(gdb) 
+50              int bytes_left = total_bytes - current_byte;
+(gdb) 
+51              if (piece_size > bytes_left) {
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+58              write(soc, piece, piece_size);
+(gdb) 
+59              current_byte += piece_size;
+(gdb) 
+48          while (current_byte < total_bytes) {
+(gdb) 
+49              int piece_size = rand() % (MAXCHARS - MINCHARS + 1) + MINCHARS;
+(gdb) 
+50              int bytes_left = total_bytes - current_byte;
+(gdb) 
+51              if (piece_size > bytes_left) {
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+58              write(soc, piece, piece_size);
+(gdb) 
+59              current_byte += piece_size;
+(gdb) 
+48          while (current_byte < total_bytes) {
+(gdb) 
+49              int piece_size = rand() % (MAXCHARS - MINCHARS + 1) + MINCHARS;
+(gdb) 
+50              int bytes_left = total_bytes - current_byte;
+(gdb) 
+51              if (piece_size > bytes_left) {
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+58              write(soc, piece, piece_size);
+(gdb) 
+59              current_byte += piece_size;
+(gdb) next
+48          while (current_byte < total_bytes) {
+(gdb) 
+49              int piece_size = rand() % (MAXCHARS - MINCHARS + 1) + MINCHARS;
+(gdb) 
+50              int bytes_left = total_bytes - current_byte;
+(gdb) 
+51              if (piece_size > bytes_left) {
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+58              write(soc, piece, piece_size);
+(gdb) 
+59              current_byte += piece_size;
+(gdb) 
+48          while (current_byte < total_bytes) {
+(gdb) 
+49              int piece_size = rand() % (MAXCHARS - MINCHARS + 1) + MINCHARS;
+(gdb) 
+50              int bytes_left = total_bytes - current_byte;
+(gdb) 
+51              if (piece_size > bytes_left) {
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+58              write(soc, piece, piece_size);
+(gdb) 
+59              current_byte += piece_size;
+(gdb) 
+48          while (current_byte < total_bytes) {
+(gdb) 
+49              int piece_size = rand() % (MAXCHARS - MINCHARS + 1) + MINCHARS;
+(gdb) 
+50              int bytes_left = total_bytes - current_byte;
+(gdb) 
+51              if (piece_size > bytes_left) {
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+58              write(soc, piece, piece_size);
+(gdb) 
+59              current_byte += piece_size;
+(gdb) 
+48          while (current_byte < total_bytes) {
+(gdb) 
+49              int piece_size = rand() % (MAXCHARS - MINCHARS + 1) + MINCHARS;
+(gdb) 
+50              int bytes_left = total_bytes - current_byte;
+(gdb) 
+51              if (piece_size > bytes_left) {
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+58              write(soc, piece, piece_size);
+(gdb) 
+59              current_byte += piece_size;
+(gdb) 
+48          while (current_byte < total_bytes) {
+(gdb) 
+49              int piece_size = rand() % (MAXCHARS - MINCHARS + 1) + MINCHARS;
+(gdb) 
+50              int bytes_left = total_bytes - current_byte;
+(gdb) 
+51              if (piece_size > bytes_left) {
+(gdb) 
+52                  piece_size = bytes_left;
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+56                  piece[i] = message[(current_byte + i) % message_len];
+(gdb) 
+55              for (int i = 0; i < piece_size; i++) {
+(gdb) 
+58              write(soc, piece, piece_size);
+(gdb) 
+59              current_byte += piece_size;
+(gdb) 
+48          while (current_byte < total_bytes) {
+(gdb) 
+61      }
+(gdb) 
+main (argc=2, argv=0x7fffffffea28) at randclient.c:33
+33          close(soc);
+(gdb) 
+34          return 0;
+(gdb) 
+35      }
+(gdb) 
+__libc_start_main (main=0x555555554c5a <main>, argc=2, argv=0x7fffffffea28, init=<optimized out>, 
+    fini=<optimized out>, rtld_fini=<optimized out>, stack_end=0x7fffffffea18)
+    at ../csu/libc-start.c:344
+344     ../csu/libc-start.c: No such file or directory.
+(gdb) 
+[Inferior 1 (process 60355) exited normally]
+(gdb) 
+The program is not being run.
+(gdb) 
+The program is not being run.
+(gdb) 
+The program is not being run.
+(gdb) next[K[K[K[Ke[Kquit
+]0;pintocra@wolf:/h/u11/c8/00/pintocra/Desktop/csc209/pintocra/lab10wolf:~/Desktop/csc209/pintocra/lab10$ gdb randclient
+GNU gdb (Ubuntu 8.1-0ubuntu3.2) 8.1.0.20180409-git
+Copyright (C) 2018 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.  Type "show copying"
+and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+<http://www.gnu.org/software/gdb/documentation/>.
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from randclient...done.
+(gdb) break main
+Breakpoint 1 at 0xc69: file randclient.c, line 24.
+(gdb) run 127.0.0.1
+Starting program: /h/u11/c8/00/pintocra/Desktop/csc209/pintocra/lab10/randclient 127.0.0.1
+
+Breakpoint 1, main (argc=2, argv=0x7fffffffea28) at randclient.c:24
+24          if (argc != 2) {
+(gdb) next
+29          int soc = connect_to_server(PORT, argv[1]);
+(gdb) 
+31          write_random_pieces(soc, MESSAGE, TIMES);
+(gdb) 
+33          close(soc);
+(gdb) 
+34          return 0;
+(gdb) 
+35      }
+(gdb) 
+__libc_start_main (main=0x555555554c5a <main>, argc=2, argv=0x7fffffffea28, init=<optimized out>, 
+    fini=<optimized out>, rtld_fini=<optimized out>, stack_end=0x7fffffffea18)
+    at ../csu/libc-start.c:344
+344     ../csu/libc-start.c: No such file or directory.
+(gdb) 
+[Inferior 1 (process 60948) exited normally]
+(gdb) nextrun 127.0.0.1
+Starting program: /h/u11/c8/00/pintocra/Desktop/csc209/pintocra/lab10/randclient 127.0.0.1
+
+Breakpoint 1, main (argc=2, argv=0x7fffffffea28) at randclient.c:24
+24          if (argc != 2) {
+(gdb) 
+(gdb) 
+(gdb) next
+29          int soc = connect_to_server(PORT, argv[1]);
+(gdb) 
+31          write_random_pieces(soc, MESSAGE, TIMES);
+(gdb) 
+33          close(soc);
+(gdb) 
+34          return 0;
+(gdb) 
+35      }
+(gdb) 
+__libc_start_main (main=0x555555554c5a <main>, argc=2, argv=0x7fffffffea28, init=<optimized out>, 
+    fini=<optimized out>, rtld_fini=<optimized out>, stack_end=0x7fffffffea18)
+    at ../csu/libc-start.c:344
+344     ../csu/libc-start.c: No such file or directory.
+(gdb) 
+[Inferior 1 (process 61176) exited normally]
+(gdb) 
+The program is not being run.
+(gdb) nextrun 127.0.0.1
+Starting program: /h/u11/c8/00/pintocra/Desktop/csc209/pintocra/lab10/randclient 127.0.0.1
+
+Breakpoint 1, main (argc=2, argv=0x7fffffffea28) at randclient.c:24
+24          if (argc != 2) {
+(gdb) 
+(gdb) 
+(gdb) 
+(gdb) 
+(gdb) next
+29          int soc = connect_to_server(PORT, argv[1]);
+(gdb) 
+31          write_random_pieces(soc, MESSAGE, TIMES);
+(gdb) 
+
+Program received signal SIGPIPE, Broken pipe.
+0x00007ffff7af4154 in __GI___libc_write (fd=3, buf=0x7fffffffe901, nbytes=4)
+    at ../sysdeps/unix/sysv/linux/write.c:27
+27      ../sysdeps/unix/sysv/linux/write.c: No such file or directory.
+(gdb) 
+
+Program terminated with signal SIGPIPE, Broken pipe.
+The program no longer exists.
+(gdb) nextrun 127.0.0.1
+Starting program: /h/u11/c8/00/pintocra/Desktop/csc209/pintocra/lab10/randclient 127.0.0.1
+
+Breakpoint 1, main (argc=2, argv=0x7fffffffea28) at randclient.c:24
+24          if (argc != 2) {
+(gdb) next
+29          int soc = connect_to_server(PORT, argv[1]);
+(gdb) next
+connect: Connection refused
+[Inferior 1 (process 61293) exited with code 01]
+(gdb) p[Knextrun 127.0.0.1
+Starting program: /h/u11/c8/00/pintocra/Desktop/csc209/pintocra/lab10/randclient 127.0.0.1
+
+Breakpoint 1, main (argc=2, argv=0x7fffffffea28) at randclient.c:24
+24          if (argc != 2) {
+(gdb) next
+29          int soc = connect_to_server(PORT, argv[1]);
+(gdb) 
+31          write_random_pieces(soc, MESSAGE, TIMES);
+(gdb) quit
+A debugging session is active.
+
+        Inferior 1 [process 61295] will be killed.
+
+Quit anyway? (y or n) y
+]0;pintocra@wolf:/h/u11/c8/00/pintocra/Desktop/csc209/pintocra/lab10wolf:~/Desktop/csc209/pintocra/lab10$ exit
+exit
+
+Script done on 2020-03-23 20:09:15-0400
