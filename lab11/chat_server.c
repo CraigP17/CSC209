@@ -51,7 +51,7 @@ int accept_connection(int fd, struct sockname *usernames) {
 }
 
 
-/* 
+/*
  * Read a message from client_index and echo it back to them.
  * Return the fd if it has been closed or 0 otherwise.
  */
@@ -62,14 +62,38 @@ int read_from(int client_index, struct sockname *usernames) {
     /*
      * In Lab 10, you focused on handling partial reads. For this lab, you do
      * not need handle partial reads.  Because of that, this server program
-     * does not check for "\r\n" when it reads from the client. 
+     * does not check for "\r\n" when it reads from the client.
      */
+    int usr_read = 0;
+    if (usernames[client_index].username == NULL) {
+      // save username of client
+      char uname[BUF_SIZE];
+      usr_read = read(fd, &uname, BUF_SIZE);
+      uname[usr_read - 1] = '\0';
+      usernames[client_index].username = malloc(sizeof(char) * usr_read);
+      strncpy(usernames[client_index].username, uname, usr_read);
+    } else {
+      // User Message to be sent is USERNAME:_
+      char send_msg[BUF_SIZE * 2 + 3];
+      sprintf(send_msg, "%s", usernames[client_index].username);
+      strncat(send_msg, ": ", sizeof(char) * 2);
 
-    int num_read = read(fd, &buf, BUF_SIZE);
-    buf[num_read] = '\0'; 
-    if (num_read == 0 || write(fd, buf, strlen(buf)) != strlen(buf)) {
-        usernames[client_index].sock_fd = -1;
+      // Read message from the user
+      int num_read = read(fd, &buf, BUF_SIZE);
+      if (num_read == 0) {
         return fd;
+      }
+      buf[num_read] = '\0';
+
+      // Message to be sent is Username: Message
+      strncat(send_msg, buf, num_read);
+
+      // Send Message to All Users
+      for (int i = 0; i < MAX_CONNECTIONS; i++) {
+        if (usernames[i].sock_fd != -1) {
+          write(usernames[i].sock_fd, send_msg, strlen(send_msg));
+        }
+      }
     }
 
     return 0;
@@ -101,11 +125,11 @@ int main(void) {
     // away. Since you are likely to run, stop, edit, compile and rerun your
     // server fairly quickly, this will mean you can reuse the same port.
     int on = 1;
-    int status = setsockopt(sock_fd, SOL_SOCKET, SO_REUSEADDR, 
+    int status = setsockopt(sock_fd, SOL_SOCKET, SO_REUSEADDR,
                             (const char *) &on, sizeof(on));
     if (status == -1) {
         perror("setsockopt -- REUSEADDR");
-    }  
+    }
 
     // This should always be zero. On some systems, it won't error if you
     // forget, but on others, you'll get mysterious errors. So zero it.
@@ -159,6 +183,7 @@ int main(void) {
                 int client_closed = read_from(index, usernames);
                 if (client_closed > 0) {
                     FD_CLR(client_closed, &all_fds);
+                    free(usernames[index].username);
                     printf("Client %d disconnected\n", client_closed);
                 } else {
                     printf("Echoing message from client %d\n", usernames[index].sock_fd);
