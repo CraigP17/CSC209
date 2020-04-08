@@ -220,7 +220,7 @@ void write_msg(struct client *client, char *message,
     if (write(client->fd, message, strlen(message)) == -1) {
       // Client Disconnected
       fprintf(stderr, "Client [%d] Disconnected from Write\n", client->fd);
-      if (strcmp(client->username, "/0") == 0) {
+      if (strcmp(client->username, "\0") == 0) {
         // Active Client, announce to users they have disconnected
         char disconnect_msg[BUF_SIZE + 20];
         sprintf(disconnect_msg, "%s has disconnected\r\n", client->username);
@@ -278,7 +278,7 @@ int check_client(struct client *newbie,
       } else {
         // Username not empty and not taken, valid username
         // save their username, return 1 for passing all checks
-        strncpy(newbie->username, newbie->inbuf, strlen(newbie->inbuf));
+        sprintf(newbie->username, "%s", newbie->inbuf);
         fprintf(stdout, "%s is a valid username\n", newbie->username);
         return 1;
       }
