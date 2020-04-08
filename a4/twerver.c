@@ -578,15 +578,11 @@ void read_active_user(struct client *user, struct client **active_list) {
           perror("malloc");
           exit(1);
         }
-      // strncpy(tail, &(space[1]), tail_len);            // "tail "
-      // tail[tail_len] = '\0';                           // "tail\0"
-      sprintf(tail, "%s", &(space[1]));
+      sprintf(tail, "%s", &(space[1]));                   // "tail\0"
 
       // 1st Arg
       char command[command_len];
-      sprintf(command, "%s", user->inbuf);
-      // strncpy(command, user->inbuf, command_len);      // "command"
-      // command[command_len] = '\0';                     // "command\0"
+      sprintf(command, "%s", user->inbuf);                // "command\0"
 
       // Call corresponding command
       if ((strcmp(command, FOLLOW_MSG)) == 0) {
