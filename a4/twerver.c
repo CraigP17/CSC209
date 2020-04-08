@@ -493,6 +493,12 @@ void show(struct client *user, struct client **active_list) {
 // Send a message to all the clients in the user's Followers list if under
 // message capacity (8)
 void message(struct client *user, char *message, struct client **active_list) {
+  if (strcmp(message, "\0") == 0) {
+    fprintf(stdout, "%s sent empty message\n", user->username);
+    char *empty_msg = "Enter a Non-Empty Message\r\n";
+    write_msg(user, empty_msg, active_list);
+    return;
+  }
   int i = 0;
   int space_found = 0;
   while (i < MSG_LIMIT) {
