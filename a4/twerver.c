@@ -155,7 +155,7 @@ void remove_new_client(struct client **clients, int fd) {
   for (p = clients; *p && (*p)->fd != fd; p = &(*p)->next)
       ;
   *p = ((*p)->next);
-  fprintf(stderr, "Removed New Client: %d\n", fd);
+  fprintf(stdout, "Removed New Client: %d\n", fd);
 }
 
 // Move client c from new_clients list to active_clients list.
@@ -179,7 +179,7 @@ void activate_client(struct client *c,
       *active_clients_ptr = c;
 
       // Tell serve about activation
-      fprintf(stderr, "[%d] %s has been activated\n", c->fd, c->username);
+      fprintf(stdout, "[%d] %s has been activated\n", c->fd, c->username);
     }
 
 // Reads the Clients input from the socket, saving the string to their inbuf
@@ -193,7 +193,7 @@ void read_string_from(struct client *user, struct client **clients_list) {
     exit(1);
   } else if (bytes_read == 0) {
     // 0 bytes read, disconnected client user so remove them and announce it
-    fprintf(stderr, "Client [%d] Disconnected\n", user->fd);
+    fprintf(stdout, "Client [%d] Disconnected\n", user->fd);
     if (strcmp(user->username, "\0") != 0) {
       // Active client to be removed
       char disconnect_msg[BUF_SIZE + 20];
@@ -206,7 +206,7 @@ void read_string_from(struct client *user, struct client **clients_list) {
     remove_new_client(clients_list, user->fd);
     return;
   } else {
-    fprintf(stderr, "[%d] Read %d Characters\n", user->fd, bytes_read);
+    fprintf(stdout, "[%d] Read %d Characters\n", user->fd, bytes_read);
     user->in_ptr[bytes_read] = '\0';
     // Set inbuf ptr to end. (ptr reset in checked if /r/n terminated)
     user->in_ptr = &(user->in_ptr[bytes_read]);
@@ -240,7 +240,7 @@ int check_taken(char *name, struct client **active_clients) {
     while (curr_user != NULL) {
       if (strcmp(name, curr_user->username) == 0) {
         // attempt username is taken by someone else
-        fprintf(stderr, "Username %s taken\n", name);
+        fprintf(stdout, "Username %s taken\n", name);
         return 1;
       }
       curr_user = curr_user->next;
@@ -263,10 +263,10 @@ int check_client(struct client *newbie,
       newbie->in_ptr = &(newbie->inbuf[0]);
       // Can remove \r\n and then check validity
       newbie->inbuf[strlen(newbie->inbuf) - 2] = '\0';
-      fprintf(stderr, "[%d] Finished Reading: %s\n", newbie->fd, newbie->inbuf);
+      fprintf(stdout, "[%d] Finished Reading: %s\n", newbie->fd, newbie->inbuf);
       if (newbie->inbuf[0] == '\0') {
         // User entered empty string as username
-        fprintf(stderr, "[%d] Empty Username Sent\n", newbie->fd);
+        fprintf(stdout, "[%d] Empty Username Sent\n", newbie->fd);
         char *empty_msg = "Enter a Non-Empty Username\r\n";
         write_msg(newbie, empty_msg, new_clients_ptr);
         return 0;
@@ -279,7 +279,7 @@ int check_client(struct client *newbie,
         // Username not empty and not taken, valid username
         // save their username, return 1 for passing all checks
         strncpy(newbie->username, newbie->inbuf, strlen(newbie->inbuf));
-        fprintf(stderr, "%s is a valid username\n", newbie->username);
+        fprintf(stdout, "%s is a valid username\n", newbie->username);
         return 1;
       }
     }
@@ -297,28 +297,28 @@ void announce(struct client **active_clients, char *s) {
 // Called when a user quits, removes them from active_clients list and
 // announces to the server and to users that they have quit
 void quit(struct client *user, struct client **active_clients_ptr) {
-  fprintf(stderr, "[%d] %s has quit\n", user->fd, user->username);
+  fprintf(stdout, "[%d] %s has quit\n", user->fd, user->username);
   char quit_msg[BUF_SIZE + 15];
   sprintf(quit_msg, "%s has quit\r\n", user->username);
   remove_client(active_clients_ptr, user->fd);
   announce(active_clients_ptr, quit_msg);
-  fprintf(stderr, "Successfuly Removed\n");
+  fprintf(stdout, "Successfuly Removed\n");
 }
 
 // Check is a name is an active user in the user_list and return their client
 // struct, else return NULL is not user with such name exists
 struct client *check_exists(struct client **user_list, char *name) {
   struct client *curr_user = *user_list;
-  fprintf(stderr, "Searching if %s exists\n", name);
+  fprintf(stdout, "Searching if %s exists\n", name);
   while (curr_user != NULL) {
     if (strcmp(curr_user->username,name) == 0) {
-      fprintf(stderr, "Found active user %s\n", name);
+      fprintf(stdout, "Found active user %s\n", name);
       return curr_user;
     }
     curr_user = curr_user->next;
   }
   // No user with such name exists in list
-  fprintf(stderr, "%s is not an active client\n", name);
+  fprintf(stdout, "%s is not an active client\n", name);
   return NULL;
 }
 
@@ -402,7 +402,7 @@ void follow(struct client *user, char *follow_name,
     if ((check_follow(user->following, follow_user)) == 1) {
       // User already follows this client
       char follow_msg[BUF_SIZE + 30];
-      fprintf(stderr, "%s already follows %s\n", user->username,
+      fprintf(stdout, "%s already follows %s\n", user->username,
        follow_user->username);
       sprintf(follow_msg, "You already follow %s", follow_user->username);
       write_msg(user, follow_msg, active_clients_ptr);
@@ -413,7 +413,7 @@ void follow(struct client *user, char *follow_name,
     if ((check_space(follow_user->followers)) == 0) {
       // Insufficient space in Follow_user's followers
       char max_msg[BUF_SIZE + 35];
-      fprintf(stderr, "Unsuccessful follow: %s at max cap\n", follow_name);
+      fprintf(stdout, "Unsuccessful follow: %s at max cap\n", follow_name);
       sprintf(max_msg, "%s is at max follower capacity\r\n", follow_name);
       write_msg(user, max_msg, active_clients_ptr);
       return;
@@ -421,7 +421,7 @@ void follow(struct client *user, char *follow_name,
     // Check user's following for capacity
     if ((check_space(user->following)) == 0) {
       // Insufficient space in user's following
-      fprintf(stderr, "Unsuccessful follow: %s at max cap\n", user->username);
+      fprintf(stdout, "Unsuccessful follow: %s at max cap\n", user->username);
       char *max_space_msg = "You are at max following capacity\r\n";
       write_msg(user, max_space_msg, active_clients_ptr);
       return;
@@ -431,7 +431,7 @@ void follow(struct client *user, char *follow_name,
     add_follow(follow_user->followers, user);
     // Add follow_user to user's following if space
     add_follow(user->following, follow_user);
-    fprintf(stderr, "%s successfuly follows %s\n", user->username, follow_name);
+    fprintf(stdout, "%s successfuly follows %s\n", user->username, follow_name);
   }
 
 // Called when a client wants to unfollow a user,
@@ -452,7 +452,7 @@ void unfollow(struct client* client, char *name, struct client **active_list) {
   if ((check_follow(client->following, user_ptr)) == 0) {
     // Client is not following that user
     char nfollow_msg[BUF_SIZE + 25];
-    fprintf(stderr, "%s is not following %s\n", client->username, name);
+    fprintf(stdout, "%s is not following %s\n", client->username, name);
     sprintf(nfollow_msg, "You are not following %s\r\n", name);
     write_msg(client, nfollow_msg, active_list);
     return;
@@ -462,7 +462,7 @@ void unfollow(struct client* client, char *name, struct client **active_list) {
   remove_follow(user_ptr->followers, client);
   // Remove user_ptr (name) from client's following list
   remove_follow(client->following, user_ptr);
-  fprintf(stderr, "%s successfuly unfollows %s\n", client->username, name);
+  fprintf(stdout, "%s successfuly unfollows %s\n", client->username, name);
 }
 
 // Displays the previously sent messages of those users this user is following
@@ -482,7 +482,7 @@ void show(struct client *user, struct client **active_list) {
       }
     }
   }
-  fprintf(stderr, "Messages shown\n");
+  fprintf(stdout, "Messages shown\n");
 }
 
 // Send a message to all the clients in the user's Followers list if under
@@ -500,7 +500,7 @@ void message(struct client *user, char *message, struct client **active_list) {
     i++;
   }
   if (space_found == 0) {
-    fprintf(stderr, "%s at message capacity\n", user->username);
+    fprintf(stdout, "%s at message capacity\n", user->username);
     char *no_space_msg = "You have reached message limits\r\n";
     write_msg(user, no_space_msg, active_list);
     return;
@@ -513,7 +513,7 @@ void message(struct client *user, char *message, struct client **active_list) {
       write_msg(user->followers[j], full_msg, active_list);
     }
   }
-  fprintf(stderr, "Message sent\n");
+  fprintf(stdout, "Message sent\n");
 }
 
 // Called when there is a message to read from an active user socket
@@ -527,11 +527,11 @@ void read_active_user(struct client *user, struct client **active_list) {
     // Can reset inbuf pointer and remove \r\n
     user->in_ptr = &(user->inbuf[0]);
     user->inbuf[strlen(user->inbuf) - 2] = '\0';
-    fprintf(stderr, "[%d] Finished Reading: %s\n", user->fd, user->inbuf);
+    fprintf(stdout, "[%d] Finished Reading: %s\n", user->fd, user->inbuf);
 
     if (strcmp(user->inbuf, "\0") == 0) {
       // User entered empty string
-      fprintf(stderr, "Empty String sent\n");
+      fprintf(stdout, "Empty String sent\n");
       char *empty_msg = "Enter a Non-Empty Command\r\n";
       write_msg(user, empty_msg, active_list);
       return;
@@ -539,19 +539,19 @@ void read_active_user(struct client *user, struct client **active_list) {
     char *space = strstr(user->inbuf, " ");
     if (space == NULL) {
       // One word command was entered
-      fprintf(stderr, "[%d] %s sent: %s\n", user->fd, user->username,
+      fprintf(stdout, "[%d] %s sent: %s\n", user->fd, user->username,
        user->inbuf);
       if ((strcmp(user->inbuf, SHOW_MSG)) == 0) {
-        fprintf(stderr, "%s wants to show\n", user->username);
+        fprintf(stdout, "%s wants to show\n", user->username);
         show(user, active_list);
         return;
       } else if ((strcmp(user->inbuf, QUIT_MSG)) == 0) {
-        fprintf(stderr, "%s wants to quit\n", user->username);
+        fprintf(stdout, "%s wants to quit\n", user->username);
         quit(user, active_list);
         return;
       } else {
         char invalid_msg[BUF_SIZE + 30];
-        fprintf(stderr, "Invalid Command\n");
+        fprintf(stdout, "Invalid Command\n");
         sprintf(invalid_msg, "'%s' is an invalid command\r\n", user->inbuf);
         write_msg(user, invalid_msg, active_list);
         return;
@@ -565,6 +565,10 @@ void read_active_user(struct client *user, struct client **active_list) {
 
       // 2nd Arg
       char *tail = malloc(sizeof(char) * tail_len);
+      if (tail == NULL) {
+          perror("malloc");
+          exit(1);
+        }
       strncpy(tail, &(space[1]), tail_len);            // "tail "
       tail[tail_len] = '\0';                           // "tail\0"
 
@@ -575,17 +579,17 @@ void read_active_user(struct client *user, struct client **active_list) {
 
       // Call corresponding command
       if ((strcmp(command, FOLLOW_MSG)) == 0) {
-        fprintf(stderr, "%s wants to follow %s\n", user->username, tail);
+        fprintf(stdout, "%s wants to follow %s\n", user->username, tail);
         follow(user, tail, active_list);
       } else if ((strcmp(command, UNFOLLOW_MSG)) == 0) {
-        fprintf(stderr, "%s wants to unfollow %s\n", user->username, tail);
+        fprintf(stdout, "%s wants to unfollow %s\n", user->username, tail);
         unfollow(user, tail, active_list);
       } else if ((strcmp(command, SEND_MSG)) == 0){
-        fprintf(stderr, "%s wants to send message %s\n", user->username, tail);
+        fprintf(stdout, "%s wants to send message %s\n", user->username, tail);
         message(user, tail, active_list);
       } else {
         char invalid_mg[165];
-        fprintf(stderr, "Invalid Command\n");
+        fprintf(stdout, "Invalid Command\n");
         sprintf(invalid_mg, "'%s %s' is an invalid command\r\n", command, tail);
         write_msg(user, invalid_mg, active_list);
       }
@@ -684,7 +688,7 @@ int main (int argc, char **argv) {
 
                         // Clients name passes the checks and they can be
                         // activated as a client
-                        fprintf(stderr, "[%d] Checking name entry\n", p->fd);
+                        fprintf(stdout, "[%d] Checking name entry\n", p->fd);
                         int check;
                         if ((check = check_client(p, &active_clients,
                            &new_clients)) == 1) {
