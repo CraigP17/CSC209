@@ -550,7 +550,7 @@ void read_active_user(struct client *user, struct client **active_list) {
         quit(user, active_list);
         return;
       } else {
-        char invalid_msg[165];
+        char invalid_msg[BUF_SIZE + 30];
         fprintf(stderr, "Invalid Command\n");
         sprintf(invalid_msg, "'%s' is an invalid command\r\n", user->inbuf);
         write_msg(user, invalid_msg, active_list);
