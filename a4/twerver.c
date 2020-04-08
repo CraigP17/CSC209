@@ -628,6 +628,7 @@ int main (int argc, char **argv) {
 
     struct sockaddr_in *server = init_server_addr(PORT);
     int listenfd = set_up_server_socket(server, LISTEN_SIZE);
+    free(server);
 
     // Initialize allset and add listenfd to the set of file descriptors
     // passed into select
