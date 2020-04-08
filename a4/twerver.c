@@ -184,7 +184,8 @@ void activate_client(struct client *c,
 
 // Reads the Clients input from the socket, saving the string to their inbuf
 // takes client_list to remove client from in case socket closed
-void read_string_from(struct client *user, struct client **clients_list) {
+// returns 1 if the user was removed from disconnection
+int read_string_from(struct client *user, struct client **clients_list) {
   int char_left = BUF_SIZE - strlen(user->inbuf);
   int bytes_read = read(user->fd, user->in_ptr, char_left);
   if (bytes_read == -1) {
@@ -200,17 +201,17 @@ void read_string_from(struct client *user, struct client **clients_list) {
       sprintf(disconnect_msg, "%s has disconnected\r\n", user->username);
       remove_client(clients_list, user->fd);
       announce(clients_list, disconnect_msg);
-      return;
+      return 1; // User removed
     }
     // New client to be removed
     remove_new_client(clients_list, user->fd);
-    return;
+    return 0;
   } else {
     fprintf(stdout, "[%d] Read %d Characters\n", user->fd, bytes_read);
     user->in_ptr[bytes_read] = '\0';
     // Set inbuf ptr to end. (ptr reset in checked if /r/n terminated)
     user->in_ptr = &(user->in_ptr[bytes_read]);
-    return;
+    return 0;
   }
 }
 
@@ -254,7 +255,11 @@ int check_taken(char *name, struct client **active_clients) {
 int check_client(struct client *newbie,
     struct client **active_clients_ptr, struct client **new_clients_ptr) {
 
-    read_string_from(newbie, new_clients_ptr);
+    int removed = read_string_from(newbie, new_clients_ptr);
+    if (removed == 1) {
+      // User disconnected
+      return 0;
+    }
     if (strstr(newbie->inbuf, "\r\n") == NULL) {
       // Full line not read from client, move onto next fd
       return 0;
@@ -519,7 +524,11 @@ void message(struct client *user, char *message, struct client **active_list) {
 // Called when there is a message to read from an active user socket
 // Calls the associated action to that command after formatting the string
 void read_active_user(struct client *user, struct client **active_list) {
-  read_string_from(user, active_list);
+  int removed = read_string_from(user, active_list);
+  if (removed == 1) {
+    // User was removed from disconnection so dont continue
+    return;
+  }
   if ((strstr(user->inbuf, "\r\n")) == NULL) {
     // full line not read yet, move onto next fd
     return;
