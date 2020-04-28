@@ -41,3 +41,28 @@ $ ./filename
 
 ### Labs
 
+**Lab 1:** Compiling and running C scripts and basic shell utilities (input/output redirection and pipes)
+
+**Lab 2:** Writing C programs with pointers and using scanf() to read values from standard input
+
+**Lab 3:** Using pointers and dynamic memory allocation in the heap with malloc()
+
+**Lab 4:** Comparing, truncating, and stripping strings
+
+**Lab 5:** Using structs and File I/O with reading binary data from files (images) and storing them in a two-dimensional array in the heap
+
+**Lab 6:** Using the C gdb debugger with breakpoints to examine overflow and Segmentation Faults
+
+**Lab 7:** Forking to create multiple processes with fork(), wait(), and reading pid
+
+**Lab 8:** Using system calls (fork, exec, pipe, dup2, write, wait) to read user input and run a separate password validation program in a child process
+
+**Lab 9:** Practice using signal handlers and alarms to time reading and writing from a binary file to find the number of read operations performed in a given time
+
+**Lab 10:** Using sockets to create a server-client connection to read incomplete lines from a buffering server and output a complete line
+
+**Lab 11:** Creating a chat server with multiple clients using select() to read from multiple connections
+
+## Acknowledgements
+
+The labs and assignments were created by instructors at the University of Toronto for CSC209. They included starter code and a list of objectives to complete the assignment. The labs and assignments were completed myself
